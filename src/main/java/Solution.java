@@ -20,7 +20,7 @@ public class Solution {
         int countNs = 0;
         int countPs = 0;
 
-        System.out.println("");
+        System.out.println();
         System.out.println("Cost of items/merchandise: $" + df.format(price));
 
         for (Float coin : payment) {
@@ -37,7 +37,7 @@ public class Solution {
         System.out.println("Total amount paid: $" + df.format(total));
 
         difference = Math.round((total - price) * 100.0f) / 100.0f;
-        System.out.println("");
+        System.out.println();
         System.out.println("Total change due: $" + df.format(difference));
 
         do {
@@ -106,7 +106,7 @@ public class Solution {
             }
         } while (difference != 0);
 
-        System.out.println("");
+        System.out.println();
         System.out.println("Breakdown of change disbursed..");
         System.out.println("Number of twenty-dollar bills: " + change[0]);
         System.out.println("Number of ten-dollar bills: " + change[1]);
