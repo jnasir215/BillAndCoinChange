@@ -1,10 +1,13 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Solution {
 
     public static int[] premiumChangeMaker(float price, List<Float> payment) {
+        DecimalFormat df = new DecimalFormat("0.00");
         int[] change = new int[8];
         float total = 0;
         float difference;
@@ -18,18 +21,24 @@ public class Solution {
         int countPs = 0;
 
         System.out.println("");
-        System.out.println("Cost of items/merchandise: " + price);
+        System.out.println("Cost of items/merchandise: $" + df.format(price));
 
         for (Float coin : payment) {
             total = total + coin;
         }
 
         System.out.println("Total number of bills/coins collected: " + payment.size());
-        System.out.println("Total amount paid: " + total);
+        for(int i = 0; i < payment.size(); i++) {
+            System.out.print("$" + df.format(payment.get(i)));
+            if(i != (payment.size()-1)) System.out.print(", ");
+            if(i == (payment.size()-1)) System.out.print(".");
+        }
+        System.out.println();
+        System.out.println("Total amount paid: $" + df.format(total));
 
         difference = Math.round((total - price) * 100.0f) / 100.0f;
         System.out.println("");
-        System.out.println("Total change due: " + difference);
+        System.out.println("Total change due: $" + df.format(difference));
 
         do {
             if (difference >= 20.00f) {
@@ -37,7 +46,7 @@ public class Solution {
                 change[0] = count20s;
                 difference = Math.round((difference - 20.00f) * 100.0f) / 100.0f;
                 System.out.println("One twenty-dollar bill disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 10.00f) {
@@ -45,7 +54,7 @@ public class Solution {
                 change[1] = count10s;
                 difference = Math.round((difference - 10.00f) * 100.0f) / 100.0f;
                 System.out.println("One ten-dollar bill disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 5.00f) {
@@ -53,7 +62,7 @@ public class Solution {
                 change[2] = count5s;
                 difference = Math.round((difference - 5.00f) * 100.0f) / 100.0f;
                 System.out.println("One five-dollar bill disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 1.00f) {
@@ -61,7 +70,7 @@ public class Solution {
                 change[3] = count1s;
                 difference = Math.round((difference - 1.00f) * 100.0f) / 100.0f;
                 System.out.println("One one-dollar bill disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 0.25f) {
@@ -69,7 +78,7 @@ public class Solution {
                 change[4] = countQs;
                 difference = Math.round((difference - 0.25f) * 100.0f) / 100.0f;
                 System.out.println("One quarter disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 0.10f) {
@@ -77,7 +86,7 @@ public class Solution {
                 change[5] = countDs;
                 difference = Math.round((difference - 0.10f) * 100.0f) / 100.0f;
                 System.out.println("One dime disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 0.05f) {
@@ -85,7 +94,7 @@ public class Solution {
                 change[6] = countNs;
                 difference = Math.round((difference - 0.05f) * 100.0f) / 100.0f;
                 System.out.println("One nickel disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
                 continue;
             }
             if (difference >= 0.01f) {
@@ -93,7 +102,7 @@ public class Solution {
                 change[7] = countPs;
                 difference = Math.round((difference - 0.01f) * 100.0f) / 100.0f;
                 System.out.println("One penny disbursed..");
-                System.out.println("Remaining change due: " + difference);
+                System.out.println("Remaining change due: $" + df.format(difference));
             }
         } while (difference != 0);
 
@@ -113,7 +122,17 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        List<Float> payment = new ArrayList<>(Arrays.asList(20.00f, 20.00f, 0.25f, 0.25f, 0.10f));
-        premiumChangeMaker(35.51f, payment);
+        //List<Float> payment = new ArrayList<>(Arrays.asList(20.00f, 20.00f, 0.25f, 0.25f, 0.10f));
+        List<Float> payment = new ArrayList<>();
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Cost of merchandise: ");
+        float price = scan.nextFloat();
+        System.out.print("How many bills/coins are you paying with: ");
+        int noBills = scan.nextInt();
+        for (int i = 0; i < noBills; i++) {
+            System.out.print("Enter bill/coin amount: ");
+            payment.add(scan.nextFloat());
+        }
+        premiumChangeMaker(price, payment);
     }
 }
