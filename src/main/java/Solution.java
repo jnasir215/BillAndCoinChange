@@ -190,7 +190,9 @@ public class Solution {
         }*/
         total = amountPaid(price, payment);
         if(total < price)
-            total = collectMore(price, total);
+            do {
+                total = collectMore(price, total);
+            } while (total < price);
         premiumChangeMaker(price, total);
     }
 }
