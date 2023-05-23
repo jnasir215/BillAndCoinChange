@@ -6,19 +6,9 @@ import java.util.Scanner;
 
 public class Solution {
 
-    public static int[] premiumChangeMaker(float price, List<Float> payment) {
+    public static float amountPaid(float price, List<Float> payment) {
         DecimalFormat df = new DecimalFormat("0.00");
-        int[] change = new int[8];
         float total = 0;
-        float difference;
-        int count20s = 0;
-        int count10s = 0;
-        int count5s = 0;
-        int count1s = 0;
-        int countQs = 0;
-        int countDs = 0;
-        int countNs = 0;
-        int countPs = 0;
 
         System.out.println();
         System.out.println("Cost of items/merchandise: $" + df.format(price));
@@ -35,6 +25,67 @@ public class Solution {
         }
         System.out.println();
         System.out.println("Total amount paid: $" + df.format(total));
+        return total;
+    }
+
+    public static float collectMore(float price, float total) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        List<Float> morePayment = new ArrayList<>();
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println();
+        System.out.println("The bills/coins you paid are not enough.");
+        System.out.print("How many more bills/coins are you paying with: ");
+        int noBills = scan.nextInt();
+        for (int i = 0; i < noBills; i++) {
+            System.out.print("Enter bill/coin amount: ");
+            morePayment.add(scan.nextFloat());
+        }
+
+        for (Float coin : morePayment) {
+            total = total + coin;
+        }
+        System.out.println("Total number of bills/coins collected: " + morePayment.size());
+        for(int i = 0; i < morePayment.size(); i++) {
+            System.out.print("$" + df.format(morePayment.get(i)));
+            if(i != (morePayment.size()-1)) System.out.print(", ");
+            if(i == (morePayment.size()-1)) System.out.print(".");
+        }
+        System.out.println();
+        System.out.println("Total amount paid: $" + df.format(total));
+
+        return total;
+    }
+
+    public static int[] premiumChangeMaker(float price, float total) {
+        DecimalFormat df = new DecimalFormat("0.00");
+        int[] change = new int[8];
+        //float total = 0;
+        float difference;
+        int count20s = 0;
+        int count10s = 0;
+        int count5s = 0;
+        int count1s = 0;
+        int countQs = 0;
+        int countDs = 0;
+        int countNs = 0;
+        int countPs = 0;
+
+        /*System.out.println();
+        System.out.println("Cost of items/merchandise: $" + df.format(price));
+
+        for (Float coin : payment) {
+            total = total + coin;
+        }
+
+        System.out.println("Total number of bills/coins collected: " + payment.size());
+        for(int i = 0; i < payment.size(); i++) {
+            System.out.print("$" + df.format(payment.get(i)));
+            if(i != (payment.size()-1)) System.out.print(", ");
+            if(i == (payment.size()-1)) System.out.print(".");
+        }
+        System.out.println();
+        System.out.println("Total amount paid: $" + df.format(total));*/
 
         difference = Math.round((total - price) * 100.0f) / 100.0f;
         System.out.println();
@@ -124,6 +175,7 @@ public class Solution {
     public static void main(String[] args) {
         //List<Float> payment = new ArrayList<>(Arrays.asList(20.00f, 20.00f, 0.25f, 0.25f, 0.10f));
         List<Float> payment = new ArrayList<>();
+        float total = 0;
         Scanner scan = new Scanner(System.in);
         System.out.print("Cost of merchandise: ");
         float price = scan.nextFloat();
@@ -133,6 +185,12 @@ public class Solution {
             System.out.print("Enter bill/coin amount: ");
             payment.add(scan.nextFloat());
         }
-        premiumChangeMaker(price, payment);
+        /*for (Float coin : payment) {
+            total = total + coin;
+        }*/
+        total = amountPaid(price, payment);
+        if(total < price)
+            total = collectMore(price, total);
+        premiumChangeMaker(price, total);
     }
 }
