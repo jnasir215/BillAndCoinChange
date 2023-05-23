@@ -175,7 +175,7 @@ public class Solution {
     public static void main(String[] args) {
         //List<Float> payment = new ArrayList<>(Arrays.asList(20.00f, 20.00f, 0.25f, 0.25f, 0.10f));
         List<Float> payment = new ArrayList<>();
-        float total = 0;
+        float total;
         Scanner scan = new Scanner(System.in);
         System.out.print("Cost of merchandise: ");
         float price = scan.nextFloat();
@@ -185,9 +185,6 @@ public class Solution {
             System.out.print("Enter bill/coin amount: ");
             payment.add(scan.nextFloat());
         }
-        /*for (Float coin : payment) {
-            total = total + coin;
-        }*/
         total = amountPaid(price, payment);
         if(total < price)
             do {
