@@ -18,6 +18,7 @@ public class Solution {
         }
 
         System.out.println("Total number of bills/coins collected: " + payment.size());
+        System.out.print("Bills/coins collected: ");
         for(int i = 0; i < payment.size(); i++) {
             System.out.print("$" + df.format(payment.get(i)));
             if(i != (payment.size()-1)) System.out.print(", ");
@@ -28,10 +29,11 @@ public class Solution {
         return total;
     }
 
-    public static float collectMore(float price, float total) {
+    public static float collectMore(float total) {
         DecimalFormat df = new DecimalFormat("0.00");
         List<Float> morePayment = new ArrayList<>();
         Scanner scan = new Scanner(System.in);
+        float moreTotal = 0;
 
         System.out.println();
         System.out.println("The bills/coins you paid are not enough.");
@@ -43,15 +45,18 @@ public class Solution {
         }
 
         for (Float coin : morePayment) {
+            moreTotal = moreTotal + coin;
             total = total + coin;
         }
-        System.out.println("Total number of bills/coins collected: " + morePayment.size());
+        System.out.println("Total number of additional bills/coins collected: " + morePayment.size());
+        System.out.print("Additional bills/coins collected: ");
         for(int i = 0; i < morePayment.size(); i++) {
             System.out.print("$" + df.format(morePayment.get(i)));
             if(i != (morePayment.size()-1)) System.out.print(", ");
             if(i == (morePayment.size()-1)) System.out.print(".");
         }
         System.out.println();
+        System.out.println("Additional amount collected: $" + df.format(moreTotal));
         System.out.println("Total amount paid: $" + df.format(total));
 
         return total;
@@ -175,6 +180,7 @@ public class Solution {
     public static void main(String[] args) {
         //List<Float> payment = new ArrayList<>(Arrays.asList(20.00f, 20.00f, 0.25f, 0.25f, 0.10f));
         List<Float> payment = new ArrayList<>();
+        float payments = 0;
         float total;
         Scanner scan = new Scanner(System.in);
         System.out.print("Cost of merchandise: ");
@@ -185,11 +191,20 @@ public class Solution {
             System.out.print("Enter bill/coin amount: ");
             payment.add(scan.nextFloat());
         }
+            /*System.out.print("Enter bill/coin amount: ");
+            payment.add(scan.nextFloat());
+            if(payments < price) {
+                for (int i = 0; i < payment.size(); i++) {
+                    payments = payments + payment.get(i);
+                }
+                System.out.println(payments);
+            }
+             */
         total = amountPaid(price, payment);
         if(total < price)
-            do {
-                total = collectMore(price, total);
-            } while (total < price);
+            while (total < price) {
+                total = collectMore(total);
+            }
         premiumChangeMaker(price, total);
     }
 }
